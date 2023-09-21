@@ -11,14 +11,15 @@ import Alamofire
 enum UserEndpoint: APIConfiguration {
     
     case login(email: String, password: String)
-    case posts
-    case post(id: Int)
+    case articles
+    case article(id: Int)
     
+    // MARK: - HTTPMethod
     var method: HTTPMethod {
         switch self {
         case .login:
             return .post
-        case .posts, .post:
+        case .articles, .article:
             return .get
         }
     }
@@ -28,10 +29,10 @@ enum UserEndpoint: APIConfiguration {
         switch self {
         case .login:
             return "/login"
-        case .posts:
-            return "/posts"
-        case .post(let id):
-            return "/posts/\(id)"
+        case .articles:
+            return "/articles/all.json"
+        case .article(let id):
+            return "/article/\(id)"
         }
     }
     
@@ -40,7 +41,7 @@ enum UserEndpoint: APIConfiguration {
         switch self {
         case .login(let email, let password):
             return [K.APIParameterKey.email: email, K.APIParameterKey.password: password]
-        case .posts, .post:
+        case .articles, .article:
             return nil
         }
     }
